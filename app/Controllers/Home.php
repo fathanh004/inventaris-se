@@ -28,7 +28,7 @@ class Home extends BaseController
         $cek_admin = $this->user_model->where($array)->findAll();
 
         if ($cek_admin != null) {
-            dd($cek_admin);
+            redirect('/crudcontroller/tampil_barang');
             // $this->session->set_userdata('masuk', TRUE);
             // $this->session->set_userdata('ses_id', $data['user_id']);
             // redirect('pageAdmin');
@@ -36,13 +36,16 @@ class Home extends BaseController
             $array1 = array('username' => $username, 'password' => $password, 'role' => 'employee');
             $cek_employee = $this->user_model->where($array1)->findAll();
             if ($cek_employee != null) {
-                dd($cek_employee);
+                redirect('/crudcontroller/tampil_barang');
                 // $this->session->set_userdata('masuk', TRUE);
                 // $this->session->set_userdata('ses_id', $data['user_id']);
                 // redirect('pageEmployee');
             } else {
-                $url = base_url();
-                session()->setFlashdata('eror', 'Username atau password anda salah!');
+                $data = [
+                    'title' => 'Login Page',
+                    'eror' => 'Username atau Password anda salah!'
+                ];
+                return view('login_page', $data);
             }
         }
     }

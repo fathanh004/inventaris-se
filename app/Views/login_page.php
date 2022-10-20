@@ -1,118 +1,68 @@
 <?= $this->extend('layout/template'); ?>
 
-<!-- <style>
-  html,
-  body {
-    height: 100%;
-  }
-
-  body {
-    display: flex;
-    align-items: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #f5f5f5;
-  }
-
-  .form-signin {
-    max-width: 330px;
-    padding: 15px;
-  }
-
-  .form-signin .form-floating:focus-within {
-    z-index: 2;
-  }
-
-  .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-
-  .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-
-  .bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-  }
-
-  @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-      font-size: 3.5rem;
-    }
-  }
-
-  .b-example-divider {
-    height: 3rem;
-    background-color: rgba(0, 0, 0, .1);
-    border: solid rgba(0, 0, 0, .15);
-    border-width: 1px 0;
-    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-  }
-
-  .b-example-vr {
-    flex-shrink: 0;
-    width: 1.5rem;
-    height: 100vh;
-  }
-
-  .bi {
-    vertical-align: -.125em;
-    fill: currentColor;
-  }
-
-  .nav-scroller {
-    position: relative;
-    z-index: 2;
-    height: 2.75rem;
-    overflow-y: hidden;
-  }
-
-  .nav-scroller .nav {
-    display: flex;
-    flex-wrap: nowrap;
-    padding-bottom: 1rem;
-    margin-top: -1px;
-    overflow-x: auto;
-    text-align: center;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
-</style> -->
-
 <?= $this->section('content'); ?>
 
-<body>
-  <div class="vh-100 d-flex justify-content-center align-items-center">
-    <div class="col-md-4 p-5 shadow-sm border rounded-3">
-      <h2 class="text-center mb-4 text-primary">Sign In</h2>
-      <form action="<?php echo '/login' ?>" method="post">
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Username</label>
-          <input type="text" name="username" class="form-control border border-primary" id="exampleInputEmail1" aria-describedby="emailHelp">
+<body class="bg-gradient-primary">
+
+  <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <a href="/" class="h2 text-gray-900 mb-2">SE - FT</a>
+                    <h2 class="h4 text-gray-900 mb-4">Student Employee Fakultas Teknik</h2>
+                    <hr>
+                  </div>
+                  <form class="user" action="<?php echo '/login' ?>" method="post">
+                    <div class="form-group text-center">
+                      <label for="inputUsername">Username</label>
+                      <input type="text" name="username" class="form-control form-control-user" id="inputUsername" aria-describedby="emailHelp" placeholder="Masukkan username anda...">
+                    </div>
+                    <div class="form-group text-center">
+                      <label for="inputPassword">Password</label>
+                      <input type="password" name="password" class="form-control form-control-user" id="inputPassword" placeholder="Masukkan password anda...">
+                    </div>
+                    <div class="text-center" style="color:red">
+                      <?php
+                      if (isset($eror)) {
+                        echo $eror;
+                      } ?>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-user btn-block mt-4"> Login
+                    </button>
+
+
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" name="password" class="form-control border border-primary" id="exampleInputPassword1">
-        </div>
-        <p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>
-        <div class="d-grid">
-          <button class="btn btn-primary" type="submit">Login</button>
-        </div>
-      </form>
-      <div class="mt-3">
-        <p class="mb-0  text-center">Don't have an account? <a href="signup.html" class="text-primary fw-bold">Sign
-            Up</a></p>
+
       </div>
+
     </div>
+
   </div>
+
+
+
 </body>
+
 
 <?= $this->endSection(); ?>
