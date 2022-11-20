@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 16 Okt 2022 pada 10.46
--- Versi server: 10.4.18-MariaDB
--- Versi PHP: 8.0.3
+-- Generation Time: Nov 20, 2022 at 05:39 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barang`
+-- Table structure for table `barang`
 --
 
 CREATE TABLE `barang` (
@@ -34,23 +34,58 @@ CREATE TABLE `barang` (
   `lab_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `barang`
+--
+
+INSERT INTO `barang` (`barang_id`, `nama`, `jumlah`, `lab_id`) VALUES
+(1, 'Mouse', 20, 1),
+(2, 'Dus Kabel UTP Cat 5e', 3, 2);
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `employee`
+-- Table structure for table `employee`
 --
 
 CREATE TABLE `employee` (
-  `nim` int(11) NOT NULL,
+  `nim` varchar(11) NOT NULL,
   `user_id` int(10) NOT NULL,
   `prodi` varchar(255) NOT NULL,
   `angkatan` varchar(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`nim`, `user_id`, `prodi`, `angkatan`) VALUES
+('20520241020', 1, 'Pendidikan Teknik Informatika', '2020'),
+('20520241026', 3, 'Pendidikan Teknik Informatika', '2020');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `lab`
+-- Table structure for table `employee_lab`
+--
+
+CREATE TABLE `employee_lab` (
+  `lab_id` int(10) NOT NULL,
+  `nim` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `employee_lab`
+--
+
+INSERT INTO `employee_lab` (`lab_id`, `nim`) VALUES
+(1, '20520241020'),
+(2, '20520241026');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lab`
 --
 
 CREATE TABLE `lab` (
@@ -60,10 +95,18 @@ CREATE TABLE `lab` (
   `koordinator` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `lab`
+--
+
+INSERT INTO `lab` (`lab_id`, `nama`, `gedung`, `koordinator`) VALUES
+(1, 'Lab Telekomunikasi', 'IDB', 'Dr. Drs. Pramudi Utomo, M.Si.'),
+(2, 'Lab Jaringan Komputer', 'IDB', 'Purno Tri Aji, M.Eng.');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pinjam`
+-- Table structure for table `pinjam`
 --
 
 CREATE TABLE `pinjam` (
@@ -80,22 +123,21 @@ CREATE TABLE `pinjam` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `presensi`
+-- Table structure for table `presensi`
 --
 
 CREATE TABLE `presensi` (
-  `nim` int(11) NOT NULL,
+  `nim` varchar(11) NOT NULL,
   `tanggal` date NOT NULL,
   `waktu_tiba` time NOT NULL,
   `waktu_pulang` time NOT NULL,
-  `lab_id` int(10) NOT NULL,
   `keterangan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -109,107 +151,121 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `nama`, `email`, `telpon`, `role`) VALUES
 (1, 'fathanh004', 'fathan123', 'Fathan Hidayatullah', 'fathanhidayatullah004@gmail.com', '08895954173', 'employee'),
-(2, 'admin1', 'admin123', 'Akun Admin 1', 'admin1@google.com', '081235677132', 'admin');
+(2, 'admin1', 'admin123', 'Akun Admin 1', 'admin1@google.com', '081235677132', 'admin'),
+(3, 'feisal', 'feisal123', 'Feisal Dharma Yudha', 'feisaldharmayudha123@gmail.com', '08994641133', 'employee');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `barang`
+-- Indexes for table `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`barang_id`),
   ADD KEY `lab_id` (`lab_id`);
 
 --
--- Indeks untuk tabel `employee`
+-- Indexes for table `employee`
 --
 ALTER TABLE `employee`
   ADD PRIMARY KEY (`nim`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indeks untuk tabel `lab`
+-- Indexes for table `employee_lab`
+--
+ALTER TABLE `employee_lab`
+  ADD PRIMARY KEY (`lab_id`,`nim`),
+  ADD KEY `nim` (`nim`),
+  ADD KEY `lab_id` (`lab_id`);
+
+--
+-- Indexes for table `lab`
 --
 ALTER TABLE `lab`
   ADD PRIMARY KEY (`lab_id`);
 
 --
--- Indeks untuk tabel `pinjam`
+-- Indexes for table `pinjam`
 --
 ALTER TABLE `pinjam`
   ADD PRIMARY KEY (`pinjam_id`),
   ADD KEY `barang_id` (`barang_id`);
 
 --
--- Indeks untuk tabel `presensi`
+-- Indexes for table `presensi`
 --
 ALTER TABLE `presensi`
   ADD PRIMARY KEY (`nim`,`tanggal`),
-  ADD KEY `nim` (`nim`),
-  ADD KEY `lab_id` (`lab_id`);
+  ADD KEY `nim` (`nim`);
 
 --
--- Indeks untuk tabel `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `barang`
+-- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `barang_id` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `barang_id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `pinjam`
+-- AUTO_INCREMENT for table `pinjam`
 --
 ALTER TABLE `pinjam`
   MODIFY `pinjam_id` int(12) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `barang`
+-- Constraints for table `barang`
 --
 ALTER TABLE `barang`
   ADD CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`lab_id`) REFERENCES `lab` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `employee`
+-- Constraints for table `employee`
 --
 ALTER TABLE `employee`
   ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `pinjam`
+-- Constraints for table `employee_lab`
+--
+ALTER TABLE `employee_lab`
+  ADD CONSTRAINT `employee_lab_ibfk_1` FOREIGN KEY (`lab_id`) REFERENCES `lab` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `employee_lab_ibfk_2` FOREIGN KEY (`nim`) REFERENCES `employee` (`nim`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pinjam`
 --
 ALTER TABLE `pinjam`
   ADD CONSTRAINT `pinjam_ibfk_1` FOREIGN KEY (`barang_id`) REFERENCES `barang` (`barang_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `presensi`
+-- Constraints for table `presensi`
 --
 ALTER TABLE `presensi`
-  ADD CONSTRAINT `presensi_ibfk_1` FOREIGN KEY (`lab_id`) REFERENCES `lab` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `presensi_ibfk_2` FOREIGN KEY (`nim`) REFERENCES `employee` (`nim`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 

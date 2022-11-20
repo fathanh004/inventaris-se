@@ -27,17 +27,20 @@ class Home extends BaseController
         $password = $this->request->getPost('password');
 
         $array = array('username' => $username, 'password' => $password, 'role' => 'admin');
-        $cek_admin = $this->user_model->where($array)->findAll();
-
+        $cek_admin = $this->user_model->where($array)->first();
+        
         if ($cek_admin != null) {
+            session()->set('id', $cek_admin['user_id']);
             return redirect()->route('barang');
+            
             // $this->session->set_userdata('masuk', TRUE);
             // $this->session->set_userdata('ses_id', $data['user_id']);
             // redirect('pageAdmin');
         } else {
             $array1 = array('username' => $username, 'password' => $password, 'role' => 'employee');
-            $cek_employee = $this->user_model->where($array1)->findAll();
+            $cek_employee = $this->user_model->where($array1)->first();
             if ($cek_employee != null) {
+                session()->set('id', $cek_employee['user_id']);
                 return redirect()->route('barang');
                 // $this->session->set_userdata('masuk', TRUE);
                 // $this->session->set_userdata('ses_id', $data['user_id']);
@@ -54,8 +57,7 @@ class Home extends BaseController
 
     function logout()
     {
-        $this->session->sess_destroy();
-        $url = base_url('');
-        redirect($url);
+        session()->destroy();
+        return redirect()->route('');
     }
 }

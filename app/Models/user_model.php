@@ -11,7 +11,6 @@ class user_model extends Model
 
     function auth_admin($username, $password)
     {
-
         return $this->db->query("SELECT * FROM user WHERE username='$username' AND password='$password' AND role='admin' LIMIT 1");
     }
     function auth_employee($username, $password)
