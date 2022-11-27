@@ -24,13 +24,53 @@ class CrudController extends BaseController
         $nim = $this->employee_model->where('user_id', $user_id)->first();
         $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
         $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();
-        
+
         $data = [
             'title' => 'Tabel Barang',
             'barang' => $barang,
-            'nama' => $user['nama'],	
+            'nama' => $user['nama'],
         ];
 
         return view('table_page', $data);
+    }
+
+    function tambah_barang()
+    {
+        $user_id = session()->get('id');
+        $user = $this->user_model->find($user_id);
+        $nim = $this->employee_model->where('user_id', $user_id)->first();
+        $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
+        $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();
+
+        $data = [
+            'title' => 'Tabel Barang',
+            'barang' => $barang,
+            'nama' => $user['nama'],
+        ];
+
+        return view('tambah_page', $data);
+    }
+
+    function tambah_aksi()
+    {
+        $nama = $this->request->getPost('nama');
+        $jumlah = $this->request->getPost('jumlah');
+
+        $user_id = session()->get('id');
+        $nim = $this->employee_model->where('user_id', $user_id)->first();
+        $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
+
+        $data = [
+            'nama' => $nama,
+            'jumlah' => $jumlah,
+            'lab_id' => $lab_id['lab_id'],
+        ];
+
+        $this->barang_model->insert($data);
+        if ($this->barang_model->affectedRows() > 0) {
+            return redirect()->route('barang');
+        } else {
+            return redirect()->route('tambah_barang');
+        }
     }
 }

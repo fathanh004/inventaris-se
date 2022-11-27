@@ -23,7 +23,7 @@
                     <h2 class="h4 text-gray-900 mb-4">Student Employee Fakultas Teknik</h2>
                     <hr>
                   </div>
-                  <form class="user" action="<?php echo '/login' ?>" method="post">
+                  <form class="user" action="/login" method="post">
                     <div class="form-group text-center">
                       <label for="inputUsername">Username</label>
                       <input type="text" name="username" class="form-control form-control-user" id="inputUsername" aria-describedby="emailHelp" placeholder="Masukkan username anda...">
