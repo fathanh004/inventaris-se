@@ -56,21 +56,26 @@ class CrudController extends BaseController
         $nama = $this->request->getPost('nama');
         $jumlah = $this->request->getPost('jumlah');
 
-        $user_id = session()->get('id');
-        $nim = $this->employee_model->where('user_id', $user_id)->first();
-        $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
-
-        $data = [
-            'nama' => $nama,
-            'jumlah' => $jumlah,
-            'lab_id' => $lab_id['lab_id'],
-        ];
-
-        $this->barang_model->insert($data);
-        if ($this->barang_model->affectedRows() > 0) {
-            return redirect()->route('barang');
+        if ($nama == null || $jumlah == null) {
+            return redirect()->to('/tambah');
         } else {
-            return redirect()->route('tambah_barang');
+
+            $user_id = session()->get('id');
+            $nim = $this->employee_model->where('user_id', $user_id)->first();
+            $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
+
+            $data = [
+                'nama' => $nama,
+                'jumlah' => $jumlah,
+                'lab_id' => $lab_id['lab_id'],
+            ];
+
+            $this->barang_model->insert($data);
+            if ($this->barang_model->affectedRows() > 0) {
+                return redirect()->route('barang');
+            } else {
+                return redirect()->route('tambah_barang');
+            }
         }
     }
 }

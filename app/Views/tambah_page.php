@@ -33,7 +33,8 @@
                         </tbody>
                     </table>
                     <div class="container-fluid text-center">
-                        <button class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <a class="btn btn-danger" href="/barang">Batal</a>
                     </div>
                 </div>
             </form>
