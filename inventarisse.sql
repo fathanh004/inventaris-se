@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2022 at 05:39 PM
+-- Generation Time: Dec 17, 2022 at 03:09 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -40,7 +40,11 @@ CREATE TABLE `barang` (
 
 INSERT INTO `barang` (`barang_id`, `nama`, `jumlah`, `lab_id`) VALUES
 (1, 'Mouse', 20, 1),
-(2, 'Dus Kabel UTP Cat 5e', 3, 2);
+(2, 'Dus Kabel UTP Cat 5e', 3, 2),
+(3, 'Arduino', 7, 1),
+(6, 'Keyboard', 5, 1),
+(16, 'Headset', 25, 1),
+(17, 'Kabel UTP Cat6', 30, 1);
 
 -- --------------------------------------------------------
 
@@ -81,6 +85,31 @@ CREATE TABLE `employee_lab` (
 INSERT INTO `employee_lab` (`lab_id`, `nim`) VALUES
 (1, '20520241020'),
 (2, '20520241026');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history_barang`
+--
+
+CREATE TABLE `history_barang` (
+  `history_id` int(20) NOT NULL,
+  `barang_id` int(12) NOT NULL,
+  `keterangan` varchar(20) NOT NULL,
+  `jumlah` int(10) NOT NULL,
+  `tanggal` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `history_barang`
+--
+
+INSERT INTO `history_barang` (`history_id`, `barang_id`, `keterangan`, `jumlah`, `tanggal`) VALUES
+(1, 3, 'Barang Rusak', -3, '2022-11-29'),
+(2, 1, 'Barang Masuk', 5, '2022-11-29'),
+(3, 3, 'Barang Rusak', 20, '2022-11-29'),
+(4, 16, 'Barang Masuk', 25, '2022-11-29'),
+(5, 17, 'Barang Masuk', 30, '2022-11-29');
 
 -- --------------------------------------------------------
 
@@ -186,6 +215,13 @@ ALTER TABLE `employee_lab`
   ADD KEY `lab_id` (`lab_id`);
 
 --
+-- Indexes for table `history_barang`
+--
+ALTER TABLE `history_barang`
+  ADD PRIMARY KEY (`history_id`),
+  ADD KEY `barang_id` (`barang_id`);
+
+--
 -- Indexes for table `lab`
 --
 ALTER TABLE `lab`
@@ -219,7 +255,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `barang_id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `barang_id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `history_barang`
+--
+ALTER TABLE `history_barang`
+  MODIFY `history_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pinjam`
@@ -255,6 +297,12 @@ ALTER TABLE `employee`
 ALTER TABLE `employee_lab`
   ADD CONSTRAINT `employee_lab_ibfk_1` FOREIGN KEY (`lab_id`) REFERENCES `lab` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `employee_lab_ibfk_2` FOREIGN KEY (`nim`) REFERENCES `employee` (`nim`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `history_barang`
+--
+ALTER TABLE `history_barang`
+  ADD CONSTRAINT `history_barang_ibfk_1` FOREIGN KEY (`barang_id`) REFERENCES `barang` (`barang_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pinjam`
