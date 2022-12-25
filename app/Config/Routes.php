@@ -37,6 +37,7 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->post('/login', 'Home::auth');
+$routes->get('/dashboard', 'CrudController::dashboard');
 $routes->get('/barang', 'CrudController::tampil_barang');
 $routes->get('/tambah', 'CrudController::tambah_barang');
 $routes->get('/hapus/(:num)', 'CrudController::hapus_barang/$1');

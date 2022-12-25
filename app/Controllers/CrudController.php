@@ -8,6 +8,8 @@ use App\Models\employee_lab_model;
 use App\Models\employee_model;
 use App\Models\history_barang_model;
 use App\Models\pinjam_model;
+use App\Models\jadwal_model;
+use App\Models\lab_model;
 
 class CrudController extends BaseController
 {
@@ -19,6 +21,8 @@ class CrudController extends BaseController
         $this->employee_model = new employee_model();
         $this->history_barang_model = new history_barang_model();
         $this->pinjam_model = new pinjam_model();
+        $this->jadwal_model = new jadwal_model();
+        $this->lab_model = new lab_model();
     }
 
     function tampil_barang()
@@ -38,6 +42,24 @@ class CrudController extends BaseController
         return view('table_page', $data);
     }
 
+    function dashboard()
+    {
+        $user_id = session()->get('id');
+        $user = $this->user_model->find($user_id);
+        $nim = $this->employee_model->where('user_id', $user_id)->first();
+        $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
+        $lab = $this->lab_model->find($lab_id['lab_id']);
+        $jadwal = $this->jadwal_model->where('lab_id', $lab_id['lab_id'])->findAll();
+
+        $data = [
+            'title' => 'Tabel Barang',
+            'lab' => $lab,
+            'barang' => $jadwal,
+            'nama' => $user['nama'],
+        ];
+
+        return view('dashboard_page', $data);
+    }
 
     function tambah_barang()
     {
