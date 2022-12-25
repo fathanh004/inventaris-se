@@ -46,6 +46,7 @@ $routes->get('/edit-jumlah/(:num)', 'CrudController::edit_jumlah/$1');
 $routes->post('/edit-jumlah-aksi', 'CrudController::edit_jumlah_aksi');
 $routes->get('/laporan', 'CrudController::laporan_barang');
 $routes->post('/tambah-aksi', 'CrudController::tambah_aksi');
+$routes->get('/pinjam', 'CrudController::tampil_pinjam');
 $routes->get('/logout', 'Home::logout');
 
 /*

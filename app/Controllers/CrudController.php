@@ -7,6 +7,7 @@ use App\Models\barang_model;
 use App\Models\employee_lab_model;
 use App\Models\employee_model;
 use App\Models\history_barang_model;
+use App\Models\pinjam_model;
 
 class CrudController extends BaseController
 {
@@ -17,6 +18,7 @@ class CrudController extends BaseController
         $this->employee_lab_model = new employee_lab_model();
         $this->employee_model = new employee_model();
         $this->history_barang_model = new history_barang_model();
+        $this->pinjam_model = new pinjam_model();
     }
 
     function tampil_barang()
@@ -212,5 +214,36 @@ class CrudController extends BaseController
         ];
 
         return view('history_page', $data);
+    }
+
+    //pinjam
+
+    function tampil_pinjam()
+    {
+        $user_id = session()->get('id');
+        $user = $this->user_model->find($user_id);
+        $nim = $this->employee_model->where('user_id', $user_id)->first();
+        $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
+        $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();	
+        //$i = 0;
+        $pinjamArr = [];
+
+        foreach ($barang as $b) {
+            $pinjam = $this->pinjam_model->where('barang_id', $b['barang_id'])->findAll();
+            if($pinjam != null){
+                $pinjamArr[] = $pinjam[0];
+            }
+            //$i++;
+            //$pinjamArr++;
+        }
+       //dd($pinjamArr);
+        $data = [
+            'title' => 'Laporan Peminjaman Barang',
+            'barang' => $barang,
+            'nama' => $user['nama'],
+            'pinjamArr' => $pinjamArr	
+        ];
+
+        return view('table_pinjam', $data);
     }
 }
