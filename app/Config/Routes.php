@@ -41,8 +41,11 @@ $routes->get('/barang', 'CrudController::tampil_barang');
 $routes->get('/tambah', 'CrudController::tambah_barang');
 $routes->get('/hapus/(:num)', 'CrudController::hapus_barang/$1');
 $routes->get('/edit/(:num)', 'CrudController::edit_barang/$1');
+$routes->post('/edit-aksi', 'CrudController::edit_aksi');
+$routes->get('/edit-jumlah/(:num)', 'CrudController::edit_jumlah/$1');
+$routes->post('/edit-jumlah-aksi', 'CrudController::edit_jumlah_aksi');
 $routes->get('/laporan', 'CrudController::laporan_barang');
-$routes->post('/tambahaksi', 'CrudController::tambah_aksi');
+$routes->post('/tambah-aksi', 'CrudController::tambah_aksi');
 $routes->get('/logout', 'Home::logout');
 
 /*

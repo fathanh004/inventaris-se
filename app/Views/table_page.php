@@ -39,17 +39,23 @@
                                 <td><?= $b['jumlah']; ?></td>
                                 <td><?= $b['satuan']; ?></td>
                                 <td>
-                                    <a href="<?php echo site_url('edit/' . $b['barang_id']) ?>" class="btn btn-success btn-icon-split">
+                                    <a href="<?php echo site_url('edit/' . $b['barang_id']) ?>" class="btn btn-info btn-icon-split">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-edit"></i>
                                         </span>
-                                        <span class="text">Edit</span>
+                                        <span class="text">Edit Keterangan</span>
+                                    </a>
+                                    <a href="<?php echo site_url('edit-jumlah/' . $b['barang_id']) ?>" class="btn btn-success btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-box"></i>
+                                        </span>
+                                        <span class="text">Barang Masuk/Keluar</span>
                                     </a>
                                     <a href="<?php echo site_url('hapus/' . $b['barang_id']) ?>" class="btn btn-danger btn-icon-split">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-trash"></i>
                                         </span>
-                                        <span class="text">Hapus</span>
+                                        <span class="text">Hapus Barang</span>
                                     </a>
                                 </td>
                             </tr>

@@ -13,7 +13,7 @@
             <h5 class="m-0 font-weight-bold text-primary text-center">Tambah Barang</h5>
         </div>
         <div class="card-body">
-            <form action="/tambahaksi" method="post">
+            <form action="/tambah-aksi" method="post">
                 <div class="table">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>

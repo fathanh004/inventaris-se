@@ -27,8 +27,8 @@
                     <tbody>
                         <?php
                         $i = 0;
-                        foreach ($historyArr as $h) :?>
-                        
+                        foreach ($historyArr as $h) : ?>
+
                             <tr>
                                 <td><?= $h['tanggal']; ?></td>
                                 <?php foreach ($barang as $b) : ?>
