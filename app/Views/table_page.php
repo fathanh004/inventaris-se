@@ -27,6 +27,7 @@
                         <tr>
                             <th>Nama Barang</th>
                             <th>Jumlah</th>
+                            <th>Satuan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -36,6 +37,7 @@
                             <tr>
                                 <td><?= $b['nama']; ?></td>
                                 <td><?= $b['jumlah']; ?></td>
+                                <td><?= $b['satuan']; ?></td>
                                 <td>
                                     <a href="<?php echo site_url('edit/' . $b['barang_id']) ?>" class="btn btn-success btn-icon-split">
                                         <span class="icon text-white-50">
@@ -43,7 +45,7 @@
                                         </span>
                                         <span class="text">Edit</span>
                                     </a>
-                                    <a href="<?php echo site_url('delete/' . $b['barang_id']) ?>" class="btn btn-danger btn-icon-split">
+                                    <a href="<?php echo site_url('hapus/' . $b['barang_id']) ?>" class="btn btn-danger btn-icon-split">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-trash"></i>
                                         </span>

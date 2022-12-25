@@ -39,6 +39,8 @@ $routes->get('/', 'Home::index');
 $routes->post('/login', 'Home::auth');
 $routes->get('/barang', 'CrudController::tampil_barang');
 $routes->get('/tambah', 'CrudController::tambah_barang');
+$routes->get('/hapus/(:num)', 'CrudController::hapus_barang/$1');
+$routes->get('/edit/(:num)', 'CrudController::edit_barang/$1');
 $routes->get('/laporan', 'CrudController::laporan_barang');
 $routes->post('/tambahaksi', 'CrudController::tambah_aksi');
 $routes->get('/logout', 'Home::logout');

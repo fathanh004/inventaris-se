@@ -10,7 +10,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h5 class="m-0 font-weight-bold text-primary text-center">Tambah Barang</h5>
+            <h5 class="m-0 font-weight-bold text-primary text-center">Edit Barang</h5>
         </div>
         <div class="card-body">
             <form action="/tambahaksi" method="post">
@@ -27,15 +27,15 @@
                         <tbody>
                             <div class="input-group input-group-sm mb-3">
                                 <tr>
-                                    <td><input type="text" name="nama" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
-                                    <td><input step="1" name="jumlah" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
-                                    <td><input type="text" name="satuan" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
+                                    <td><input type="text" name="nama" placeholder="<?= $barang['nama']?>" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
+                                    <td><input step="1" name="jumlah" placeholder="<?= $barang['jumlah']?>" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
+                                    <td><input type="text" name="satuan" placeholder="<?= $barang['satuan']?>" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
                                 </tr>
                             </div>
                         </tbody>
                     </table>
                     <div class="container-fluid text-center">
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                         <a class="btn btn-danger" href="/barang">Batal</a>
                     </div>
                 </div>

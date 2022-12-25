@@ -41,25 +41,24 @@ class CrudController extends BaseController
     {
         $user_id = session()->get('id');
         $user = $this->user_model->find($user_id);
-        $nim = $this->employee_model->where('user_id', $user_id)->first();
-        $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
-        $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();
 
         $data = [
-            'title' => 'Tabel Barang',
-            'barang' => $barang,
+            'title' => 'Tambah Barang',
             'nama' => $user['nama'],
         ];
 
         return view('tambah_page', $data);
     }
 
+    
+
     function tambah_aksi()
     {
         $nama = $this->request->getPost('nama');
         $jumlah = $this->request->getPost('jumlah');
-
-        if ($nama == null || $jumlah == null) {
+        $satuan = $this->request->getPost('satuan');
+    
+        if ($nama == null || $jumlah == null || $satuan == null) {
             return redirect()->to('/tambah');
         } else {
 
@@ -70,6 +69,7 @@ class CrudController extends BaseController
             $data = [
                 'nama' => $nama,
                 'jumlah' => $jumlah,
+                'satuan' => $satuan,
                 'lab_id' => $lab_id['lab_id'],
             ];
 
@@ -82,6 +82,31 @@ class CrudController extends BaseController
             } else {
                 return redirect()->route('tambah_barang');
             }
+        }
+    }
+
+    function edit_barang($num)
+    {
+        $user_id = session()->get('id');
+        $user = $this->user_model->find($user_id);
+        $barang = $this->barang_model->where('barang_id', $num)->first();
+
+        $data = [
+            'title' => 'Edit Barang',
+            'barang' => $barang,
+            'nama' => $user['nama'],
+        ];
+
+        return view('edit_page', $data);
+    }
+
+    function hapus_barang($num){
+        
+        $this->barang_model->delete($num);
+        if ($this->barang_model->affectedRows() > 0) {
+            return redirect()->route('barang');
+        } else {
+            return redirect()->route('barang');
         }
     }
 

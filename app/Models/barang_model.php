@@ -8,5 +8,5 @@ class barang_model extends Model
 {
     protected $table = 'barang';
     protected $primaryKey = 'barang_id';
-    protected $allowedFields = ['nama', 'jumlah', 'lab_id'];
+    protected $allowedFields = ['nama', 'jumlah', 'satuan', 'lab_id'];
 }

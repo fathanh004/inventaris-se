@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2022 at 03:14 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Dec 25, 2022 at 11:15 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,20 +31,20 @@ CREATE TABLE `barang` (
   `barang_id` int(12) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `jumlah` int(20) NOT NULL,
+  `satuan` varchar(30) NOT NULL,
   `lab_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `barang`
 --
 
-INSERT INTO `barang` (`barang_id`, `nama`, `jumlah`, `lab_id`) VALUES
-(1, 'Mouse', 20, 1),
-(2, 'Dus Kabel UTP Cat 5e', 3, 2),
-(3, 'Arduino', 7, 1),
-(6, 'Keyboard', 5, 1),
-(16, 'Headset', 25, 1),
-(17, 'Kabel UTP Cat6', 30, 1);
+INSERT INTO `barang` (`barang_id`, `nama`, `jumlah`, `satuan`, `lab_id`) VALUES
+(1, 'Mouse', 20, 'buah', 1),
+(2, 'Kabel UTP Cat 5e', 50, 'meter', 2),
+(3, 'Arduino', 7, 'buah', 1),
+(6, 'Keyboard', 5, 'buah', 1),
+(16, 'Headset', 25, 'buah', 1);
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `employee` (
   `user_id` int(10) NOT NULL,
   `prodi` varchar(255) NOT NULL,
   `angkatan` varchar(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `employee`
@@ -76,7 +76,7 @@ INSERT INTO `employee` (`nim`, `user_id`, `prodi`, `angkatan`) VALUES
 CREATE TABLE `employee_lab` (
   `lab_id` int(10) NOT NULL,
   `nim` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `employee_lab`
@@ -98,7 +98,7 @@ CREATE TABLE `history_barang` (
   `keterangan` varchar(20) NOT NULL,
   `jumlah` int(10) NOT NULL,
   `tanggal` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `history_barang`
@@ -108,8 +108,23 @@ INSERT INTO `history_barang` (`history_id`, `barang_id`, `keterangan`, `jumlah`,
 (1, 3, 'Barang Rusak', -3, '2022-11-29'),
 (2, 1, 'Barang Masuk', 5, '2022-11-29'),
 (3, 3, 'Barang Rusak', 20, '2022-11-29'),
-(4, 16, 'Barang Masuk', 25, '2022-11-29'),
-(5, 17, 'Barang Masuk', 30, '2022-11-29');
+(4, 16, 'Barang Masuk', 25, '2022-11-29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jadwal`
+--
+
+CREATE TABLE `jadwal` (
+  `jadwal_id` int(12) NOT NULL,
+  `matkul` varchar(50) NOT NULL,
+  `prodi` varchar(50) NOT NULL,
+  `hari` varchar(20) NOT NULL,
+  `waktu_mulai` time NOT NULL,
+  `waktu_selesai` time NOT NULL,
+  `lab_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -122,7 +137,7 @@ CREATE TABLE `lab` (
   `nama` varchar(30) NOT NULL,
   `gedung` varchar(30) NOT NULL,
   `koordinator` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `lab`
@@ -147,7 +162,7 @@ CREATE TABLE `pinjam` (
   `nama_peminjam` varchar(50) NOT NULL,
   `alasan` varchar(255) NOT NULL,
   `status` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -161,7 +176,7 @@ CREATE TABLE `presensi` (
   `waktu_tiba` time NOT NULL,
   `waktu_pulang` time NOT NULL,
   `keterangan` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -177,7 +192,7 @@ CREATE TABLE `user` (
   `email` varchar(255) NOT NULL,
   `telpon` varchar(13) NOT NULL,
   `role` varchar(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
@@ -222,6 +237,13 @@ ALTER TABLE `history_barang`
   ADD KEY `barang_id` (`barang_id`);
 
 --
+-- Indexes for table `jadwal`
+--
+ALTER TABLE `jadwal`
+  ADD PRIMARY KEY (`jadwal_id`),
+  ADD KEY `lab_id` (`lab_id`);
+
+--
 -- Indexes for table `lab`
 --
 ALTER TABLE `lab`
@@ -264,6 +286,12 @@ ALTER TABLE `history_barang`
   MODIFY `history_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `jadwal`
+--
+ALTER TABLE `jadwal`
+  MODIFY `jadwal_id` int(12) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pinjam`
 --
 ALTER TABLE `pinjam`
@@ -303,6 +331,12 @@ ALTER TABLE `employee_lab`
 --
 ALTER TABLE `history_barang`
   ADD CONSTRAINT `history_barang_ibfk_1` FOREIGN KEY (`barang_id`) REFERENCES `barang` (`barang_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `jadwal`
+--
+ALTER TABLE `jadwal`
+  ADD CONSTRAINT `jadwal_ibfk_1` FOREIGN KEY (`lab_id`) REFERENCES `lab` (`lab_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pinjam`
