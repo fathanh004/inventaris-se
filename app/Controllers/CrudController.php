@@ -388,9 +388,37 @@ class CrudController extends BaseController
             'lab' => $lab,
             'jadwal' => $seminggu,
             'nama' => $user['nama'],
+            'nim' => $nim['nim'],
         ];
 
         return view('dashboard_page', $data);
+    }
+
+    function presensi()
+    {
+        $nim = $this->request->getPost('nim');
+        $tanggal = $this->request->getPost('tanggal');
+        $tiba = $this->request->getPost('tiba');
+        $pulang = $this->request->getPost('pulang');
+        $keterangan = $this->request->getPost('keterangan');
+
+
+        if ($tiba == null||$pulang == null||$tanggal == null||$nim == null||$keterangan == null) {
+            return redirect()->to('/dashboard');
+        } else {
+
+            $data = [
+                'nim' => $nim,
+                'tanggal' => $tanggal,
+                'waktu_tiba' => $tiba,
+                'waktu_pulang' => $pulang,
+                'keterangan' => $keterangan,
+            ];
+
+            $this->presensi_model->insert($data);
+            return redirect()->route('dashboard');
+        }
+
     }
 
     function tambah_barang()
@@ -752,48 +780,42 @@ class CrudController extends BaseController
     {
         $user_id = session()->get('id');
         $user = $this->user_model->find($user_id);
-        $lab = $this->lab_model->findAll();
-        $jadwal = $this->jadwal_model->findAll();
-        $barang = $this->barang_model->findAll();
-        $pinjam = $this->pinjam_model->findAll();
-        $history = $this->history_barang_model->findAll();
+        $employee = $this->employee_model->findAll();
+        foreach ($employee as $e){
+            $userEmployee = $this->user_model->find($e['user_id']);  
+            $lab_id = $this->employee_lab_model->where('nim', $e['nim'])->first();
+            $labEmployee = $this->lab_model->find($lab_id['lab_id']);
+
+            $lengkap = [
+                'nim' => $e['nim'],
+                'nama' => $userEmployee['nama'],
+                'prodi' => $e['prodi'],
+                'angkatan' => $e['angkatan'],
+                'lab' => $labEmployee['nama'],
+            ];
+            $lengkapArr[] = $lengkap;
+        }
 
         $data = [
             'title' => 'Dashboard',
-            'lab' => $lab,
-            'barang' => $barang,
-            'pinjam' => $pinjam,
-            'history' => $history,
             'nama' => $user['nama'],
+            'employee' => $lengkapArr,
         ];
-
         return view('admin_dashboard_page', $data);
     }
 
     //presensi
-    function tampil_presensi(){
+    function tampil_presensi($nim){
         $user_id = session()->get('id');
         $user = $this->user_model->find($user_id);
-        $nim = $this->employee_model->findAll();
         $employee = $this->employee_model->findAll();
         $users = $this->user_model->findAll();
-        //$i = 0;
-        $presensiArr = [];
-      
-        foreach ($nim as $n) {
-          $presensi = $this->presensi_model->where('nim', $n['nim'])->findAll();
-          if($presensi != null){
-            foreach ($presensi as $p) {
-              $presensiArr[] = $p;
-            }
-          }
-        }
+        $presensi = $this->presensi_model->where('nim', $nim)->findAll();
       
         $data = [
             'title' => 'Laporan Presensi',
             'presensi' => $presensi,   
             'nama' => $user['nama'],
-            'presensiArr' => $presensiArr,
             'employee' => $employee,
             'users' => $users,
         ];
