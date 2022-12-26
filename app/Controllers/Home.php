@@ -41,7 +41,7 @@ class Home extends BaseController
             $cek_employee = $this->user_model->where($array1)->first();
             if ($cek_employee != null) {
                 session()->set('id', $cek_employee['user_id']);
-                return redirect()->route('barang');
+                return redirect()->route('dashboard');
                 // $this->session->set_userdata('masuk', TRUE);
                 // $this->session->set_userdata('ses_id', $data['user_id']);
                 // redirect('pageEmployee');
