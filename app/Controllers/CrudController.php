@@ -388,9 +388,37 @@ class CrudController extends BaseController
             'lab' => $lab,
             'jadwal' => $seminggu,
             'nama' => $user['nama'],
+            'nim' => $nim['nim'],
         ];
 
         return view('dashboard_page', $data);
+    }
+
+    function presensi()
+    {
+        $nim = $this->request->getPost('nim');
+        $tanggal = $this->request->getPost('tanggal');
+        $tiba = $this->request->getPost('tiba');
+        $pulang = $this->request->getPost('pulang');
+        $keterangan = $this->request->getPost('keterangan');
+
+
+        if ($tiba == null||$pulang == null||$tanggal == null||$nim == null||$keterangan == null) {
+            return redirect()->to('/dashboard');
+        } else {
+
+            $data = [
+                'nim' => $nim,
+                'tanggal' => $tanggal,
+                'waktu_tiba' => $tiba,
+                'waktu_pulang' => $pulang,
+                'keterangan' => $keterangan,
+            ];
+
+            $this->presensi_model->insert($data);
+            return redirect()->route('dashboard');
+        }
+
     }
 
     function tambah_barang()

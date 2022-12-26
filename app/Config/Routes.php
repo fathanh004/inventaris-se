@@ -38,6 +38,7 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 $routes->post('/login', 'Home::auth');
 $routes->get('/dashboard', 'CrudController::dashboard');
+$routes->post('/presensi', 'CrudController::presensi');
 $routes->get('/barang', 'CrudController::tampil_barang');
 $routes->get('/tambah', 'CrudController::tambah_barang');
 $routes->get('/hapus/(:num)', 'CrudController::hapus_barang/$1');
