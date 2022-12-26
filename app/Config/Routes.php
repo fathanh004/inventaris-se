@@ -48,6 +48,8 @@ $routes->post('/edit-jumlah-aksi', 'CrudController::edit_jumlah_aksi');
 $routes->get('/laporan', 'CrudController::laporan_barang');
 $routes->post('/tambah-aksi', 'CrudController::tambah_aksi');
 $routes->get('/pinjam', 'CrudController::tampil_pinjam');
+$routes->get('/tambah-pinjam', 'CrudController::tambah_pinjam');
+$routes->post('/tambah-aksi-pinjam', 'CrudController::tambah_aksi_pinjam');
 $routes->get('/logout', 'Home::logout');
 
 /*
