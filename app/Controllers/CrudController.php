@@ -38,7 +38,6 @@ class CrudController extends BaseController
             'barang' => $barang,
             'nama' => $user['nama'],
         ];
-        dd($barang);
         return view('table_page', $data);
     }
 
