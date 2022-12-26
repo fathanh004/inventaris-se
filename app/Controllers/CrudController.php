@@ -703,70 +703,49 @@ class CrudController extends BaseController
 
     function edit_aksi_pinjam()
     {
+        // Ambil data pinjam yang akan diedit        
         $pinjam_id = $this->request->getPost('pinjam_id');
+        $pinjam = $this->pinjam_model->where('pinjam_id', $pinjam_id)->first();
         $barang_id = $this->request->getPost('barang_id');
         $jumlah_pinjam = $this->request->getPost('jumlah_pinjam');
         $tanggal_kembali = $this->request->getPost('tanggal_kembali');
         $status = $this->request->getPost('status');
 
-        if ($tanggal_kembali == null) {
+        if ($pinjam_id == null || $tanggal_kembali == null || $status == null || $jumlah_pinjam == null || $barang_id == null) {
             return redirect()->to('/edit-pinjam/' . $pinjam_id);
         } else {
             $data = [
                 'pinjam_id' => $pinjam_id,
                 'barang_id' => $barang_id,
-                'jumlah_pinjam' => $jumlah_pinjam,
+                'jumlah_pinjam' => $pinjam['jumlah_pinjam'],
                 'tanggal_kembali' => $tanggal_kembali,
                 'status' => $status,                
             ];
             $this->pinjam_model->save($data);
+
+            // Ambil data barang sebelumnya
+            $barang = $this->barang_model->where('barang_id', $barang_id)->first();
+
+            // Tambahkan jumlah barang yang dipinjam ke jumlah barang sebelumnya
+            $jumlah_barang = $barang['jumlah'] + $jumlah_pinjam;
+
+            // Simpan jumlah barang yang baru ke tabel barang
+            $this->barang_model->update($barang_id, ['jumlah' => $jumlah_barang]);
+
+            // Buat array dengan data yang akan disimpan ke history barang
+            $data_history = [
+            'barang_id' => $barang_id,
+            'jumlah' => $jumlah_pinjam,
+            'tanggal' => $tanggal_kembali,
+            'keterangan' => 'Barang Dikembalikan',
+            ];
+
+            // Simpan data ke history barang
+            $this->history_barang_model->save($data_history);
         }
         return redirect()->route('pinjam');
     }
 
-    function edit_aksi_pinjama(){
-        // Ambil data yang dikirim dari form   
-        $user_id = session()->get('id');
-        $user = $this->user_model->find($user_id);
-        $pinjam_id = $this->request->getPost('pinjam_id');
-        $barang_id = $this->request->getPost('barang_id');
-        $nama = $this->request->getPost('nama');
-        $jumlah_pinjam = $this->request->getPost('jumlah_pinjam');
-        $tanggal_kembali = $this->request->getPost('tanggal_kembali');
-        $status = $this->request->getPost('status');
-
-        $barang = $this->barang_model->find($barang_id);
-        $pinjam = $this->pinjam_model->where('pinjam_id', $pinjam_id)->first();
-
-        if ($nama == NULL || $jumlah_pinjam == NULL || $tanggal_kembali == NULL || $status == NULL) {
-            return redirect()->to('/edit-pinjam/' . $pinjam);
-        }        
-        // tambah stok barang di tabel barang
-        $barang['jumlah'] += $jumlah_pinjam;
-        $this->barang_model->save($barang);
-
-        // simpan data ke table history barang
-        $data_history = [
-            'barang_id' => $barang_id,
-            'jumlah' => $jumlah_pinjam,
-            'tanggal' => $tanggal_kembali,
-            'keterangan' => 'Barang Kembali',
-        ];
-        $this->history_barang_model->save($data_history);
-
-        // Simpan data pinjam ke tabel pinjam
-        $data_pinjam = [
-            'pinjam_id' => $pinjam_id,
-            'barang_id' => $barang_id,
-            'jumlah_pinjam' => $jumlah_pinjam,
-            'tanggal_kembali' => $tanggal_kembali,
-            'status' => $status,
-        ];
-        $this->pinjam_model->save($data_pinjam);
-
-        // Arahkan ke halaman pinjam
-        return redirect()->route('pinjam');
-    }
 
     //admin
     function admin_dashboard()
