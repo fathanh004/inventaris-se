@@ -31,7 +31,7 @@ class Home extends BaseController
         
         if ($cek_admin != null) {
             session()->set('id', $cek_admin['user_id']);
-            return redirect()->route('barang');
+            return redirect()->route('admin');
             
             // $this->session->set_userdata('masuk', TRUE);
             // $this->session->set_userdata('ses_id', $data['user_id']);

@@ -24,6 +24,7 @@
                             <th>Nama Peminjam</th>
                             <th>Keperluan</th>
                             <th>Status</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     </tfoot>
@@ -41,6 +42,14 @@
                         <td><?= $p['nama_peminjam']; ?></td>
                         <td><?= $p['alasan']; ?></td>
                         <td><?= $p['status']; ?></td>
+                        <td>
+                            <a href="<?php echo site_url('edit-pinjam/' . $p['pinjam_id']) ?>" class="btn btn-info btn-icon-split">
+                                <span class="icon text-white-50">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                <span class="text">Edit</span>
+                            </a>
+                        </td>
                     </tr>
                     <?php
                 endif;

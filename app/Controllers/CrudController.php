@@ -10,6 +10,7 @@ use App\Models\history_barang_model;
 use App\Models\pinjam_model;
 use App\Models\jadwal_model;
 use App\Models\lab_model;
+use App\Models\presensi_model;
 
 class CrudController extends BaseController
 {
@@ -23,6 +24,7 @@ class CrudController extends BaseController
         $this->pinjam_model = new pinjam_model();
         $this->jadwal_model = new jadwal_model();
         $this->lab_model = new lab_model();
+        $this->presensi_model = new presensi_model();
     }
 
     function tampil_barang()
@@ -289,40 +291,184 @@ class CrudController extends BaseController
         return view('tambah_pinjam', $data);
     }
 
-    function tambah_aksi_pinjam()
-{
-    // Ambil data yang dikirim dari form
-    $barang_id = $this->request->getPost('barang_id');
-    $jumlah_pinjam = $this->request->getPost('jumlah_pinjam');
-    $tanggal_pinjam = $this->request->getPost('tanggal_pinjam');
-    $tanggal_kembali = $this->request->getPost('tanggal_kembali');
-    $nama_peminjam = $this->request->getPost('nama_peminjam');
-    $alasan = $this->request->getPost('alasan');
-    $status = $this->request->getPost('status');
+    function tambah_aksi_pinjam(){
+        // Ambil data yang dikirim dari form
+        $barang_id = $this->request->getPost('barang_id');
+        $jumlah_pinjam = $this->request->getPost('jumlah_pinjam');
+        $tanggal_pinjam = $this->request->getPost('tanggal_pinjam');
+        $tanggal_kembali = $this->request->getPost('tanggal_kembali');
+        $nama_peminjam = $this->request->getPost('nama_peminjam');
+        $alasan = $this->request->getPost('alasan');
+        $status = $this->request->getPost('status');
 
-    // Cek apakah jumlah pinjam melebihi stok barang
-    $barang = $this->barang_model->find($barang_id);
-    if ($jumlah_pinjam > $barang['jumlah']) {
-        return redirect()->to('/tambah-aksi-pinjam/' . $barang_id);
+        // Cek apakah jumlah pinjam melebihi stok barang
+        $barang = $this->barang_model->find($barang_id);
+        if ($jumlah_pinjam > $barang['jumlah']) {
+            return redirect()->to('/tambah-aksi-pinjam/' . $barang_id);
+        }
+
+        // Kurangi stok barang di tabel barang
+        $barang['jumlah'] -= $jumlah_pinjam;
+        $this->barang_model->save($barang);
+
+        // simpan data ke table history barang
+        $data_history = [
+            'barang_id' => $barang_id,
+            'jumlah' => $jumlah_pinjam,
+            'tanggal' => $tanggal_pinjam,
+            'keterangan' => 'Barang Dipinjam',
+        ];
+        $this->history_barang_model->save($data_history);
+
+        // Simpan data pinjam ke tabel pinjam
+        $data_pinjam = [
+            'barang_id' => $barang_id,
+            'jumlah_pinjam' => $jumlah_pinjam,
+            'tanggal_pinjam' => $tanggal_pinjam,
+            'tanggal_kembali' => $tanggal_kembali,
+            'nama_peminjam' => $nama_peminjam,
+            'alasan' => $alasan,
+            'status' => $status,
+        ];
+        $this->pinjam_model->save($data_pinjam);
+
+        // Arahkan ke halaman pinjam
+        return redirect()->route('pinjam');
     }
 
-    // Kurangi stok barang di tabel barang
-    $barang['jumlah'] -= $jumlah_pinjam;
-    $this->barang_model->save($barang);
+    function edit_pinjam($num){
+        $user_id = session()->get('id');
+        $user = $this->user_model->find($user_id);
+        $pinjam = $this->pinjam_model->find($num);
+        $barang = $this->barang_model->find($pinjam['barang_id']);
+        $data = [
+            'title' => 'Edit Peminjaman Barang',
+            'barang' => $barang,
+            'pinjam' => $pinjam,
+            'nama' => $user['nama'],
+        ];
 
-    // Simpan data pinjam ke tabel pinjam
-    $data_pinjam = [
-        'barang_id' => $barang_id,
-        'jumlah_pinjam' => $jumlah_pinjam,
-        'tanggal_pinjam' => $tanggal_pinjam,
-        'tanggal_kembali' => $tanggal_kembali,
-        'nama_peminjam' => $nama_peminjam,
-        'alasan' => $alasan,
-        'status' => $status,
-    ];
-    $this->pinjam_model->save($data_pinjam);
+        return view('edit_pinjam', $data);
+    }
 
-    // Arahkan ke halaman pinjam
-    return redirect()->route('pinjam');
-}
+    function edit_aksi_pinjam()
+    {
+        $pinjam_id = $this->request->getPost('pinjam_id');
+        $barang_id = $this->request->getPost('barang_id');
+        $jumlah_pinjam = $this->request->getPost('jumlah_pinjam');
+        $tanggal_kembali = $this->request->getPost('tanggal_kembali');
+        $status = $this->request->getPost('status');
+
+        if ($tanggal_kembali == null) {
+            return redirect()->to('/edit-pinjam/' . $pinjam_id);
+        } else {
+            $data = [
+                'pinjam_id' => $pinjam_id,
+                'barang_id' => $barang_id,
+                'jumlah_pinjam' => $jumlah_pinjam,
+                'tanggal_kembali' => $tanggal_kembali,
+                'status' => $status,                
+            ];
+            $this->pinjam_model->save($data);
+        }
+        return redirect()->route('pinjam');
+    }
+
+    function edit_aksi_pinjama(){
+        // Ambil data yang dikirim dari form   
+        $user_id = session()->get('id');
+        $user = $this->user_model->find($user_id);
+        $pinjam_id = $this->request->getPost('pinjam_id');
+        $barang_id = $this->request->getPost('barang_id');
+        $nama = $this->request->getPost('nama');
+        $jumlah_pinjam = $this->request->getPost('jumlah_pinjam');
+        $tanggal_kembali = $this->request->getPost('tanggal_kembali');
+        $status = $this->request->getPost('status');
+
+        $barang = $this->barang_model->find($barang_id);
+        $pinjam = $this->pinjam_model->where('pinjam_id', $pinjam_id)->first();
+
+        if ($nama == NULL || $jumlah_pinjam == NULL || $tanggal_kembali == NULL || $status == NULL) {
+            return redirect()->to('/edit-pinjam/' . $pinjam);
+        }        
+        // tambah stok barang di tabel barang
+        $barang['jumlah'] += $jumlah_pinjam;
+        $this->barang_model->save($barang);
+
+        // simpan data ke table history barang
+        $data_history = [
+            'barang_id' => $barang_id,
+            'jumlah' => $jumlah_pinjam,
+            'tanggal' => $tanggal_kembali,
+            'keterangan' => 'Barang Kembali',
+        ];
+        $this->history_barang_model->save($data_history);
+
+        // Simpan data pinjam ke tabel pinjam
+        $data_pinjam = [
+            'pinjam_id' => $pinjam_id,
+            'barang_id' => $barang_id,
+            'jumlah_pinjam' => $jumlah_pinjam,
+            'tanggal_kembali' => $tanggal_kembali,
+            'status' => $status,
+        ];
+        $this->pinjam_model->save($data_pinjam);
+
+        // Arahkan ke halaman pinjam
+        return redirect()->route('pinjam');
+    }
+
+    //admin
+    function admin_dashboard()
+    {
+        $user_id = session()->get('id');
+        $user = $this->user_model->find($user_id);
+        $lab = $this->lab_model->findAll();
+        $jadwal = $this->jadwal_model->findAll();
+        $barang = $this->barang_model->findAll();
+        $pinjam = $this->pinjam_model->findAll();
+        $history = $this->history_barang_model->findAll();
+
+        $data = [
+            'title' => 'Dashboard',
+            'lab' => $lab,
+            'barang' => $barang,
+            'pinjam' => $pinjam,
+            'history' => $history,
+            'nama' => $user['nama'],
+        ];
+
+        return view('admin_dashboard_page', $data);
+    }
+
+    //presensi
+    function tampil_presensi(){
+        $user_id = session()->get('id');
+        $user = $this->user_model->find($user_id);
+        $nim = $this->employee_model->findAll();
+        $employee = $this->employee_model->findAll();
+        $users = $this->user_model->findAll();
+        //$i = 0;
+        $presensiArr = [];
+      
+        foreach ($nim as $n) {
+          $presensi = $this->presensi_model->where('nim', $n['nim'])->findAll();
+          if($presensi != null){
+            foreach ($presensi as $p) {
+              $presensiArr[] = $p;
+            }
+          }
+        }
+      
+        $data = [
+            'title' => 'Laporan Presensi',
+            'presensi' => $presensi,   
+            'nama' => $user['nama'],
+            'presensiArr' => $presensiArr,
+            'employee' => $employee,
+            'users' => $users,
+        ];
+      
+        return view('table_presensi', $data);
+      }
 }

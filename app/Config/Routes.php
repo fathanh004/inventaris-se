@@ -50,6 +50,10 @@ $routes->post('/tambah-aksi', 'CrudController::tambah_aksi');
 $routes->get('/pinjam', 'CrudController::tampil_pinjam');
 $routes->get('/tambah-pinjam', 'CrudController::tambah_pinjam');
 $routes->post('/tambah-aksi-pinjam', 'CrudController::tambah_aksi_pinjam');
+$routes->get('/admin', 'CrudController::admin_dashboard');
+$routes->get('/tampil-presensi', 'CrudController::tampil_presensi');
+$routes->get('/edit-pinjam/(:num)', 'CrudController::edit_pinjam/$1');
+$routes->post('/edit-aksi-pinjam', 'CrudController::edit_aksi_pinjam');
 $routes->get('/logout', 'Home::logout');
 
 /*

@@ -20,10 +20,8 @@
                             <tr>
                                 <th>Jumlah Pinjam</th>
                                 <th>Tanggal Pinjam</th>
-                                <th>Tanggal Kembali</th>
                                 <th>Nama Peminjam</th>
                                 <th>Keperluan</th>
-                                <th>Status</th>
                             </tr>
                         </thead>
                         </tfoot>
@@ -37,17 +35,12 @@
                                     </select>
                                     <td><input step="1" name="jumlah_pinjam" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
                                     <td><input type="date" name="tanggal_pinjam" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
-                                    <td><input type="date" name="tanggal_kembali" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
                                     <td><input type="text" name="nama_peminjam" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
-                                    <td><input type="text" name="alasan" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>
-                                    <td>
-                                    <select name="status" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-                                        <option value="Belum Dikembalikan">Belum Dikembalikan</option>
-                                        <option value="Sudah Dikembalikan">Sudah Dikembalikan</option>
-                                    </select>
-                                    </td>                                
+                                    <td><input type="text" name="alasan" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"></td>                                
                                 </tr>
                             </div>
+                            <input type="date" name="tanggal_kembali" class="form-control d-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="-">
+                            <input type="text" name="status" class="form-control d-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="Belum Kembali">
                         </tbody>
                     </table>
                     
