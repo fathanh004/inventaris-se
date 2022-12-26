@@ -38,7 +38,7 @@ class CrudController extends BaseController
             'barang' => $barang,
             'nama' => $user['nama'],
         ];
-
+        dd($barang);
         return view('table_page', $data);
     }
 
@@ -51,10 +51,343 @@ class CrudController extends BaseController
         $lab = $this->lab_model->find($lab_id['lab_id']);
         $jadwal = $this->jadwal_model->where('lab_id', $lab_id['lab_id'])->findAll();
 
+        $senin = [
+            '1' => " ",
+            '2' => " ",
+            '3' => " ",
+            '4' => " ",
+            '5' => " ",
+            '6' => " ",
+            '7' => " ",
+            '8' => " ",
+            '9' => " ",
+            '10' => " ",
+            '11' => " ",
+            '12' => " ",
+        ];
+        $selasa = [
+            '1' => " ",
+            '2' => " ",
+            '3' => " ",
+            '4' => " ",
+            '5' => " ",
+            '6' => " ",
+            '7' => " ",
+            '8' => " ",
+            '9' => " ",
+            '10' => " ",
+            '11' => " ",
+            '12' => " ",
+        ];
+        $rabu = [
+            '1' => " ",
+            '2' => " ",
+            '3' => " ",
+            '4' => " ",
+            '5' => " ",
+            '6' => " ",
+            '7' => " ",
+            '8' => " ",
+            '9' => " ",
+            '10' => " ",
+            '11' => " ",
+            '12' => " ",
+        ];
+        $kamis = [
+            '1' => " ",
+            '2' => " ",
+            '3' => " ",
+            '4' => " ",
+            '5' => " ",
+            '6' => " ",
+            '7' => " ",
+            '8' => " ",
+            '9' => " ",
+            '10' => " ",
+            '11' => " ",
+            '12' => " ",
+        ];
+        $jumat = [
+            '1' => " ",
+            '2' => " ",
+            '3' => " ",
+            '4' => " ",
+            '5' => " ",
+            '6' => " ",
+            '7' => " ",
+            '8' => " ",
+            '9' => " ",
+            '10' => " ",
+            '11' => " ",
+            '12' => " ",
+        ];
+        $sabtu = [
+            '1' => " ",
+            '2' => " ",
+            '3' => " ",
+            '4' => " ",
+            '5' => " ",
+            '6' => " ",
+            '7' => " ",
+            '8' => " ",
+            '9' => " ",
+            '10' => " ",
+            '11' => " ",
+            '12' => " ",
+        ];
+
+
+        foreach ($jadwal as $j) {
+            if ($j['hari'] == "Senin") {
+                switch ($j['waktu_mulai']) {
+                    case "07:30:00":
+                        $startIndex = 1;
+                        break;
+                    case "08:20:00":
+                        $startIndex = 2;
+                        break;
+                    case "09:10:00":
+                        $startIndex = 3;
+                        break;
+                    case "10:00:00":
+                        $startIndex = 4;
+                        break;
+                    case "10:50:00":
+                        $startIndex = 5;
+                        break;
+                    case "11:40:00":
+                        $startIndex = 6;
+                        break;
+                    case "12:30:00":
+                        $startIndex = 7;
+                        break;
+                    case "13:20:00":
+                        $startIndex = 8;
+                        break;
+                    case "14:10:00":
+                        $startIndex = 9;
+                        break;
+                    default:
+                        $startIndex = null;
+                }
+
+                if ($startIndex !== null) {
+                    $endIndex = $startIndex + $j['scope'] - 1;
+                    for ($i = $startIndex; $i <= $endIndex; $i++) {
+                        $senin[$i] = $j['matkul'];
+                    }
+                }
+
+            } else if ($j['hari'] == "Selasa") {
+               switch ($j['waktu_mulai']) {
+                    case "07:30:00":
+                        $startIndex = 1;
+                        break;
+                    case "08:20:00":
+                        $startIndex = 2;
+                        break;
+                    case "09:10:00":
+                        $startIndex = 3;
+                        break;
+                    case "10:00:00":
+                        $startIndex = 4;
+                        break;
+                    case "10:50:00":
+                        $startIndex = 5;
+                        break;
+                    case "11:40:00":
+                        $startIndex = 6;
+                        break;
+                    case "12:30:00":
+                        $startIndex = 7;
+                        break;
+                    case "13:20:00":
+                        $startIndex = 8;
+                        break;
+                    case "14:10:00":
+                        $startIndex = 9;
+                        break;
+                    default:
+                        $startIndex = null;
+                }
+
+                if ($startIndex !== null) {
+                    $endIndex = $startIndex + $j['scope'] - 1;
+                    for ($i = $startIndex; $i <= $endIndex; $i++) {
+                        $selasa[$i] = $j['matkul'];
+                    }
+                }
+
+            } else if ($j['hari'] == "Rabu") {
+               switch ($j['waktu_mulai']) {
+                    case "07:30:00":
+                        $startIndex = 1;
+                        break;
+                    case "08:20:00":
+                        $startIndex = 2;
+                        break;
+                    case "09:10:00":
+                        $startIndex = 3;
+                        break;
+                    case "10:00:00":
+                        $startIndex = 4;
+                        break;
+                    case "10:50:00":
+                        $startIndex = 5;
+                        break;
+                    case "11:40:00":
+                        $startIndex = 6;
+                        break;
+                    case "12:30:00":
+                        $startIndex = 7;
+                        break;
+                    case "13:20:00":
+                        $startIndex = 8;
+                        break;
+                    case "14:10:00":
+                        $startIndex = 9;
+                        break;
+                    default:
+                        $startIndex = null;
+                }
+
+                if ($startIndex !== null) {
+                    $endIndex = $startIndex + $j['scope'] - 1;
+                    for ($i = $startIndex; $i <= $endIndex; $i++) {
+                        $rabu[$i] = $j['matkul'];
+                    }
+                }
+            } else if ($j['hari'] == "Kamis") {
+                switch ($j['waktu_mulai']) {
+                    case "07:30:00":
+                        $startIndex = 1;
+                        break;
+                    case "08:20:00":
+                        $startIndex = 2;
+                        break;
+                    case "09:10:00":
+                        $startIndex = 3;
+                        break;
+                    case "10:00:00":
+                        $startIndex = 4;
+                        break;
+                    case "10:50:00":
+                        $startIndex = 5;
+                        break;
+                    case "11:40:00":
+                        $startIndex = 6;
+                        break;
+                    case "12:30:00":
+                        $startIndex = 7;
+                        break;
+                    case "13:20:00":
+                        $startIndex = 8;
+                        break;
+                    case "14:10:00":
+                        $startIndex = 9;
+                        break;
+                    default:
+                        $startIndex = null;
+                }
+
+                if ($startIndex !== null) {
+                    $endIndex = $startIndex + $j['scope'] - 1;
+                    for ($i = $startIndex; $i <= $endIndex; $i++) {
+                        $kamis[$i] = $j['matkul'];
+                    }
+                }
+            } else if ($j['hari'] == "Jum'at") {
+                switch ($j['waktu_mulai']) {
+                    case "07:30:00":
+                        $startIndex = 1;
+                        break;
+                    case "08:20:00":
+                        $startIndex = 2;
+                        break;
+                    case "09:10:00":
+                        $startIndex = 3;
+                        break;
+                    case "10:00:00":
+                        $startIndex = 4;
+                        break;
+                    case "10:50:00":
+                        $startIndex = 5;
+                        break;
+                    case "11:40:00":
+                        $startIndex = 6;
+                        break;
+                    case "12:30:00":
+                        $startIndex = 7;
+                        break;
+                    case "13:20:00":
+                        $startIndex = 8;
+                        break;
+                    case "14:10:00":
+                        $startIndex = 9;
+                        break;
+                    default:
+                        $startIndex = null;
+                }
+                if ($startIndex !== null) {
+                    $endIndex = $startIndex + $j['scope'] - 1;
+                    for ($i = $startIndex; $i <= $endIndex; $i++) {
+                        $jumat[$i] = $j['matkul'];
+                    }
+                }
+            } else if ($j['hari'] == "Sabtu") {
+                switch ($j['waktu_mulai']) {
+                    case "07:30:00":
+                        $startIndex = 1;
+                        break;
+                    case "08:20:00":
+                        $startIndex = 2;
+                        break;
+                    case "09:10:00":
+                        $startIndex = 3;
+                        break;
+                    case "10:00:00":
+                        $startIndex = 4;
+                        break;
+                    case "10:50:00":
+                        $startIndex = 5;
+                        break;
+                    case "11:40:00":
+                        $startIndex = 6;
+                        break;
+                    case "12:30:00":
+                        $startIndex = 7;
+                        break;
+                    case "13:20:00":
+                        $startIndex = 8;
+                        break;
+                    case "14:10:00":
+                        $startIndex = 9;
+                        break;
+                    default:
+                        $startIndex = null;
+                }
+                if ($startIndex !== null) {
+                    $endIndex = $startIndex + $j['scope'] - 1;
+                    for ($i = $startIndex; $i <= $endIndex; $i++) {
+                        $sabtu[$i] = $j['matkul'];
+                    }
+                }
+            }
+        }
+
+        $seminggu = [
+            '0' => $senin,
+            '1' => $selasa,
+            '2' => $rabu,
+            '3' => $kamis,
+            '4' => $jumat,
+            '5' => $sabtu,
+        ];
+
         $data = [
             'title' => 'Tabel Barang',
             'lab' => $lab,
-            'barang' => $jadwal,
+            'jadwal' => $seminggu,
             'nama' => $user['nama'],
         ];
 
@@ -246,24 +579,24 @@ class CrudController extends BaseController
         $user = $this->user_model->find($user_id);
         $nim = $this->employee_model->where('user_id', $user_id)->first();
         $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
-        $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();	
+        $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();
         //$i = 0;
         $pinjamArr = [];
 
         foreach ($barang as $b) {
             $pinjam = $this->pinjam_model->where('barang_id', $b['barang_id'])->findAll();
-            if($pinjam != null){
+            if ($pinjam != null) {
                 $pinjamArr[] = $pinjam[0];
             }
             //$i++;
             //$pinjamArr++;
         }
-       //dd($pinjamArr);
+        //dd($pinjamArr);
         $data = [
             'title' => 'Laporan Peminjaman Barang',
             'barang' => $barang,
             'nama' => $user['nama'],
-            'pinjamArr' => $pinjamArr	
+            'pinjamArr' => $pinjamArr
         ];
 
         return view('table_pinjam', $data);
