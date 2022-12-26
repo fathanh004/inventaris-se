@@ -22,32 +22,31 @@
                             <th>Tanggal Pinjam</th>
                             <th>Tanggal Kembali</th>
                             <th>Nama Peminjam</th>
-                            <th>Alasan</th>
+                            <th>Keperluan</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     </tfoot>
                     <tbody>
                     <?php
-                        $i = 0;
-                        foreach ($pinjamArr as $h) :?>
-                        
-                            <tr>
-                                <?php foreach ($barang as $b) : ?>
-                                    <?php if ($h['barang_id'] == $b['barang_id']) : ?>
-                                        <td><?= $b['nama']; ?></td>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                                <td><?= $h['jumlah_pinjam']; ?></td>
-                                <td><?= $h['tanggal_pinjam']; ?></td>
-                                <td><?= $h['tanggal_kembali']; ?></td>
-                                <td><?= $h['nama_peminjam']; ?></td>
-                                <td><?= $h['alasan']; ?></td>
-                                <td><?= $h['status']; ?></td>
-                            </tr>
-                        <?php
-                            $i++;
-                        endforeach; ?>
+        foreach ($pinjamArr as $p) :
+            foreach ($barang as $b) :
+                if ($p['barang_id'] == $b['barang_id']) :
+                    ?>
+                    <tr>
+                        <td><?= $b['nama']; ?></td>
+                        <td><?= $p['jumlah_pinjam']; ?></td>
+                        <td><?= $p['tanggal_pinjam']; ?></td>
+                        <td><?= $p['tanggal_kembali']; ?></td>
+                        <td><?= $p['nama_peminjam']; ?></td>
+                        <td><?= $p['alasan']; ?></td>
+                        <td><?= $p['status']; ?></td>
+                    </tr>
+                    <?php
+                endif;
+            endforeach;
+        endforeach;
+                    ?>
                     </tbody>
                 </table>
             </div>

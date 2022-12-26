@@ -58,8 +58,8 @@
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="utilities-color.html">Buat Peminjaman</a>
-                        <a class="collapse-item" href="utilities-border.html">History</a>
+                        <a class="collapse-item" href="<?php echo site_url('tambah-pinjam') ?>">Buat Peminjaman</a>
+                        <a class="collapse-item" href="<?php echo site_url('pinjam') ?>">History</a>
                     </div>
                 </div>
             </li>
