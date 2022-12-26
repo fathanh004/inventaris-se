@@ -177,9 +177,8 @@ class CrudController extends BaseController
                         $senin[$i] = $j['matkul'];
                     }
                 }
-
             } else if ($j['hari'] == "Selasa") {
-               switch ($j['waktu_mulai']) {
+                switch ($j['waktu_mulai']) {
                     case "07:30:00":
                         $startIndex = 1;
                         break;
@@ -217,9 +216,8 @@ class CrudController extends BaseController
                         $selasa[$i] = $j['matkul'];
                     }
                 }
-
             } else if ($j['hari'] == "Rabu") {
-               switch ($j['waktu_mulai']) {
+                switch ($j['waktu_mulai']) {
                     case "07:30:00":
                         $startIndex = 1;
                         break;
@@ -573,36 +571,37 @@ class CrudController extends BaseController
 
     //pinjam
 
-    function tampil_pinjam(){
+    function tampil_pinjam()
+    {
         $user_id = session()->get('id');
         $user = $this->user_model->find($user_id);
         $nim = $this->employee_model->where('user_id', $user_id)->first();
         $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
-        $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();  
+        $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();
         //$i = 0;
         $pinjamArr = [];
-      
+
         // cari semua data pinjam yang terkait dengan barang di lab terkait
         foreach ($barang as $b) {
-          $pinjam = $this->pinjam_model->where('barang_id', $b['barang_id'])->findAll();
-          // simpan data pinjam yang terkait dengan barang di lab terkait ke dalam array
-          if($pinjam != null){
-            foreach ($pinjam as $p) {
-              $pinjamArr[] = $p;
+            $pinjam = $this->pinjam_model->where('barang_id', $b['barang_id'])->findAll();
+            // simpan data pinjam yang terkait dengan barang di lab terkait ke dalam array
+            if ($pinjam != null) {
+                foreach ($pinjam as $p) {
+                    $pinjamArr[] = $p;
+                }
             }
-          }
         }
-      
+
         $data = [
-          'title' => 'Laporan Peminjaman Barang',
-          'barang' => $barang,
-          'nama' => $user['nama'],
-          'pinjamArr' => $pinjamArr    
+            'title' => 'Laporan Peminjaman Barang',
+            'barang' => $barang,
+            'nama' => $user['nama'],
+            'pinjamArr' => $pinjamArr
         ];
-      
+
         return view('table_pinjam', $data);
-      }
-      
+    }
+
 
     function tambah_pinjam()
     {
@@ -611,69 +610,70 @@ class CrudController extends BaseController
         $nim = $this->employee_model->where('user_id', $user_id)->first();
         $lab_id = $this->employee_lab_model->where('nim', $nim['nim'])->first();
         $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();
-        $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();  
+        $barang = $this->barang_model->where('lab_id', $lab_id['lab_id'])->findAll();
         //$i = 0;
         $pinjamArr = [];
-      
+
         // cari semua data pinjam yang terkait dengan barang di lab terkait
         foreach ($barang as $b) {
             $pinjam = $this->pinjam_model->where('barang_id', $b['barang_id'])->findAll();
             if ($pinjam != null) {
                 $pinjamArr[] = $pinjam[0];
-          $pinjam = $this->pinjam_model->where('barang_id', $b['barang_id'])->findAll();
-          // simpan data pinjam yang terkait dengan barang di lab terkait ke dalam array
-          if($pinjam != null){
-            foreach ($pinjam as $p) {
-              $pinjamArr[] = $p;
+                $pinjam = $this->pinjam_model->where('barang_id', $b['barang_id'])->findAll();
+                // simpan data pinjam yang terkait dengan barang di lab terkait ke dalam array
+                if ($pinjam != null) {
+                    foreach ($pinjam as $p) {
+                        $pinjamArr[] = $p;
+                    }
+                }
             }
-          }
-        }
-        //dd($pinjamArr);
-      
-        $data = [
-            'title' => 'Tambah Peminjaman Barang',
-            'barang' => $barang,
-            'nama' => $user['nama'],
-            'pinjamArr' => $pinjamArr
-        ];
+            //dd($pinjamArr);
 
-        return view('tambah_pinjam', $data);
+            $data = [
+                'title' => 'Tambah Peminjaman Barang',
+                'barang' => $barang,
+                'nama' => $user['nama'],
+                'pinjamArr' => $pinjamArr
+            ];
+
+            return view('tambah_pinjam', $data);
+        }
     }
 
     function tambah_aksi_pinjam()
-{
-    // Ambil data yang dikirim dari form
-    $barang_id = $this->request->getPost('barang_id');
-    $jumlah_pinjam = $this->request->getPost('jumlah_pinjam');
-    $tanggal_pinjam = $this->request->getPost('tanggal_pinjam');
-    $tanggal_kembali = $this->request->getPost('tanggal_kembali');
-    $nama_peminjam = $this->request->getPost('nama_peminjam');
-    $alasan = $this->request->getPost('alasan');
-    $status = $this->request->getPost('status');
+    {
+        // Ambil data yang dikirim dari form
+        $barang_id = $this->request->getPost('barang_id');
+        $jumlah_pinjam = $this->request->getPost('jumlah_pinjam');
+        $tanggal_pinjam = $this->request->getPost('tanggal_pinjam');
+        $tanggal_kembali = $this->request->getPost('tanggal_kembali');
+        $nama_peminjam = $this->request->getPost('nama_peminjam');
+        $alasan = $this->request->getPost('alasan');
+        $status = $this->request->getPost('status');
 
-    // Cek apakah jumlah pinjam melebihi stok barang
-    $barang = $this->barang_model->find($barang_id);
-    if ($jumlah_pinjam > $barang['jumlah']) {
-        return redirect()->to('/tambah-aksi-pinjam/' . $barang_id);
+        // Cek apakah jumlah pinjam melebihi stok barang
+        $barang = $this->barang_model->find($barang_id);
+        if ($jumlah_pinjam > $barang['jumlah']) {
+            return redirect()->to('/tambah-aksi-pinjam/' . $barang_id);
+        }
+
+        // Kurangi stok barang di tabel barang
+        $barang['jumlah'] -= $jumlah_pinjam;
+        $this->barang_model->save($barang);
+
+        // Simpan data pinjam ke tabel pinjam
+        $data_pinjam = [
+            'barang_id' => $barang_id,
+            'jumlah_pinjam' => $jumlah_pinjam,
+            'tanggal_pinjam' => $tanggal_pinjam,
+            'tanggal_kembali' => $tanggal_kembali,
+            'nama_peminjam' => $nama_peminjam,
+            'alasan' => $alasan,
+            'status' => $status,
+        ];
+        $this->pinjam_model->save($data_pinjam);
+
+        // Arahkan ke halaman pinjam
+        return redirect()->route('pinjam');
     }
-
-    // Kurangi stok barang di tabel barang
-    $barang['jumlah'] -= $jumlah_pinjam;
-    $this->barang_model->save($barang);
-
-    // Simpan data pinjam ke tabel pinjam
-    $data_pinjam = [
-        'barang_id' => $barang_id,
-        'jumlah_pinjam' => $jumlah_pinjam,
-        'tanggal_pinjam' => $tanggal_pinjam,
-        'tanggal_kembali' => $tanggal_kembali,
-        'nama_peminjam' => $nama_peminjam,
-        'alasan' => $alasan,
-        'status' => $status,
-    ];
-    $this->pinjam_model->save($data_pinjam);
-
-    // Arahkan ke halaman pinjam
-    return redirect()->route('pinjam');
-}
 }
