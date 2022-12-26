@@ -1,4 +1,4 @@
-<?= $this->extend('layout/navbar'); ?>
+<?= $this->extend('layout/admin'); ?>
 
 <?= $this->section('contentMain'); ?>
 
@@ -29,7 +29,7 @@
                     </tfoot>
                     <tbody>
                     <?php
-        foreach ($presensiArr as $p) :
+        foreach ($presensi as $p) :
             foreach ($employee as $e) :
                 if ($p['nim'] == $e['nim']) :
                     foreach ($users as $u) :
