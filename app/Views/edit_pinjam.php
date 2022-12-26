@@ -32,6 +32,7 @@
                     </table>
                     <input type="hidden" name="pinjam_id" value="<?= $pinjam['pinjam_id'] ?>" />
                     <input type="hidden" name="barang_id" value="<?= $pinjam['barang_id'] ?>" />
+                    <input type="hidden" name="jumlah_pinjam" value="<?= $pinjam['jumlah_pinjam'] ?>" />
                     <input type="hidden" name="status" value="Sudah Kembali" />
                     <div class="container-fluid text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
