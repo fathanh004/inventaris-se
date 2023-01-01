@@ -394,6 +394,7 @@ class CrudController extends BaseController
         return view('dashboard_page', $data);
     }
 
+
     function presensi()
     {
         $nim = $this->request->getPost('nim');
@@ -403,7 +404,7 @@ class CrudController extends BaseController
         $keterangan = $this->request->getPost('keterangan');
 
 
-        if ($tiba == null||$pulang == null||$tanggal == null||$nim == null||$keterangan == null) {
+        if ($tiba == null || $pulang == null || $tanggal == null || $nim == null || $keterangan == null) {
             return redirect()->to('/dashboard');
         } else {
 
@@ -418,7 +419,6 @@ class CrudController extends BaseController
             $this->presensi_model->insert($data);
             return redirect()->route('dashboard');
         }
-
     }
 
     function tambah_barang()
@@ -669,7 +669,8 @@ class CrudController extends BaseController
         }
     }
 
-    function tambah_aksi_pinjam(){
+    function tambah_aksi_pinjam()
+    {
         // Ambil data yang dikirim dari form
         $barang_id = $this->request->getPost('barang_id');
         $jumlah_pinjam = $this->request->getPost('jumlah_pinjam');
@@ -714,7 +715,8 @@ class CrudController extends BaseController
         return redirect()->route('pinjam');
     }
 
-    function edit_pinjam($num){
+    function edit_pinjam($num)
+    {
         $user_id = session()->get('id');
         $user = $this->user_model->find($user_id);
         $pinjam = $this->pinjam_model->find($num);
@@ -747,7 +749,7 @@ class CrudController extends BaseController
                 'barang_id' => $barang_id,
                 'jumlah_pinjam' => $pinjam['jumlah_pinjam'],
                 'tanggal_kembali' => $tanggal_kembali,
-                'status' => $status,                
+                'status' => $status,
             ];
             $this->pinjam_model->save($data);
 
@@ -762,10 +764,10 @@ class CrudController extends BaseController
 
             // Buat array dengan data yang akan disimpan ke history barang
             $data_history = [
-            'barang_id' => $barang_id,
-            'jumlah' => $jumlah_pinjam,
-            'tanggal' => $tanggal_kembali,
-            'keterangan' => 'Barang Dikembalikan',
+                'barang_id' => $barang_id,
+                'jumlah' => $jumlah_pinjam,
+                'tanggal' => $tanggal_kembali,
+                'keterangan' => 'Barang Dikembalikan',
             ];
 
             // Simpan data ke history barang
@@ -781,8 +783,8 @@ class CrudController extends BaseController
         $user_id = session()->get('id');
         $user = $this->user_model->find($user_id);
         $employee = $this->employee_model->findAll();
-        foreach ($employee as $e){
-            $userEmployee = $this->user_model->find($e['user_id']);  
+        foreach ($employee as $e) {
+            $userEmployee = $this->user_model->find($e['user_id']);
             $lab_id = $this->employee_lab_model->where('nim', $e['nim'])->first();
             $labEmployee = $this->lab_model->find($lab_id['lab_id']);
 
@@ -805,21 +807,22 @@ class CrudController extends BaseController
     }
 
     //presensi
-    function tampil_presensi($nim){
+    function tampil_presensi($nim)
+    {
         $user_id = session()->get('id');
         $user = $this->user_model->find($user_id);
         $employee = $this->employee_model->findAll();
         $users = $this->user_model->findAll();
         $presensi = $this->presensi_model->where('nim', $nim)->findAll();
-      
+
         $data = [
             'title' => 'Laporan Presensi',
-            'presensi' => $presensi,   
+            'presensi' => $presensi,
             'nama' => $user['nama'],
             'employee' => $employee,
             'users' => $users,
         ];
-      
+
         return view('table_presensi', $data);
-      }
+    }
 }

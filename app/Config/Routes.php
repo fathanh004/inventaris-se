@@ -55,6 +55,7 @@ $routes->get('/admin', 'CrudController::admin_dashboard');
 $routes->get('/tampil-presensi/(:num)', 'CrudController::tampil_presensi/$1');
 $routes->get('/edit-pinjam/(:num)', 'CrudController::edit_pinjam/$1');
 $routes->post('/edit-aksi-pinjam', 'CrudController::edit_aksi_pinjam');
+$routes->get('/profil', 'Home::profil');
 $routes->get('/logout', 'Home::logout');
 
 /*
